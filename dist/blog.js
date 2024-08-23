@@ -1,7 +1,7 @@
 const baseGithubUrl = "https://raw.githubusercontent.com/nothua/nothua-blog/main/";
 const url = window.location.href;
 const slug = url.split("/").pop();
-const pageGithubUrl = `${baseGithubUrl}posts/${slug}.json`;
+const pageGithubUrl = `${baseGithubUrl}blogs/${slug}.json`;
 
 document.addEventListener("DOMContentLoaded", () => {
     const urlWithCacheBuster = `${pageGithubUrl}?${new Date().getTime()}`;

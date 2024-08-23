@@ -1,46 +1,41 @@
 const baseGithubUrl = "https://raw.githubusercontent.com/nothua/nothua-blog/main/";
-const homeGithubUrl = baseGithubUrl + "home.json";
+const url = window.location.href;
+const slug = url.split("/").pop();
+const pageGithubUrl = `${baseGithubUrl}posts/${slug}.json`;
 
 document.addEventListener("DOMContentLoaded", () => {
-    const urlWithCacheBuster = `${homeGithubUrl}?${new Date().getTime()}`;
-
+    const urlWithCacheBuster = `${pageGithubUrl}?${new Date().getTime()}`;
+    
     fetch(urlWithCacheBuster, {cache: 'no-store'})
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
-            const blogPostsContainer = document.querySelector('.blog-posts');
-            blogPostsContainer.innerHTML = '';
+            document.title = data.title + ' - Blog';
+            
+            const titleElement = document.getElementById('blog-title');
+            titleElement.textContent = data.title;
 
-            data.forEach(post => {
-                const postElement = document.createElement('div');
-                postElement.classList.add('blog-post');
-                
-                const img = document.createElement('img');
-                img.src = baseGithubUrl + post.image;
-                img.alt = '';
-                postElement.appendChild(img);
-                
-                const contentDiv = document.createElement('div');
-                contentDiv.classList.add('blog-content');
-                
-                const title = document.createElement('h2');
-                title.textContent = post.title;
-                contentDiv.appendChild(title);
-                
-                const shortDesc = document.createElement('p');
-                shortDesc.textContent = post.short_description;
-                contentDiv.appendChild(shortDesc);
-                
-                const readMoreLink = document.createElement('a');
-                readMoreLink.href = '/blog_page?' + post.blog;
-                readMoreLink.classList.add('btn');
-                readMoreLink.textContent = 'Read More';
-                contentDiv.appendChild(readMoreLink);
-                
-                postElement.appendChild(contentDiv);
-                blogPostsContainer.appendChild(postElement);
-            });
+            const dateElement = document.getElementById('blog-date');
+            dateElement.textContent = data.date;
+
+            const shortDescElement = document.getElementById('short-description');
+            shortDescElement.innerHTML = data.short_description;
+
+            const contentElement = document.getElementById('blog-content');
+            contentElement.innerHTML = data.description;
+
+            const imgElement = document.getElementById('blog-image');
+            if (data.images && data.images.length > 0) {
+                imgElement.src = baseGithubUrl + data.images[0];
+                imgElement.alt = data.title; // Provide alt text based on the title or another relevant description
+            }
         })
         .catch(error => {
-            console.error('Error fetching blog data:', error);
+            console.error('Error fetching the blog post:', error);
         });
+
 });

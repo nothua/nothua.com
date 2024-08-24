@@ -201,7 +201,6 @@ section.main p {
     transform: scale(1.03);
 }
 
-/* Blog Details */
 .blog-details {
     max-width: 800px;
     margin: 0 auto;
@@ -261,6 +260,10 @@ section.main p {
 .blog-content p {
     font-size: 1.4rem;
     margin-bottom: 0.8rem; 
+}
+
+.btn-back{
+    margin-bottom: 2rem;
 }
 
 /* Responsive Styles */

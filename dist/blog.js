@@ -23,16 +23,13 @@ document.addEventListener("DOMContentLoaded", () => {
             dateElement.textContent = data.date;
 
             const shortDescElement = document.getElementById('short-description');
-            shortDescElement.innerHTML = data.short_description;
+            shortDescElement.innerHTML = data.shortDescription;
 
             const contentElement = document.getElementById('blog-content');
-            contentElement.innerHTML = data.description;
+            contentElement.innerHTML = data.content;
 
             const imgElement = document.getElementById('blog-image');
-            if (data.images && data.images.length > 0) {
-                imgElement.src = baseGithubUrl + data.images[0];
-                imgElement.alt = data.title; // Provide alt text based on the title or another relevant description
-            }
+            imgElement.src = data.image;
         })
         .catch(error => {
             console.error('Error fetching the blog post:', error);

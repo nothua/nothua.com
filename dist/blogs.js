@@ -25,9 +25,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 const title = document.createElement('h2');
                 title.textContent = post.title;
                 contentDiv.appendChild(title);
+
+
+                const date = document.createElement('p');
+                date.textContent = `Published: ${post.date}`;
+                date.classList.add('date');
+                contentDiv.appendChild(date);
                 
                 const shortDesc = document.createElement('p');
-                shortDesc.textContent = post.short_description;
+                shortDesc.textContent = post.shortDescription;
                 contentDiv.appendChild(shortDesc);
                 
                 const readMoreLink = document.createElement('a');
@@ -43,4 +49,5 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(error => {
             console.error('Error fetching blog data:', error);
         });
+        
 });
